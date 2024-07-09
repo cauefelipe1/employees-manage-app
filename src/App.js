@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 function App() {
   const showEmployees = true;
-  const [role, setRole] = useState("Developer");
 
   const [employees, setEmployees] = useState(
     [
@@ -20,16 +19,22 @@ function App() {
       { id: 9, name: "James", role: "Supervisor", img: "https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg" }
     ]);
 
+  function onUpdateEmployee(id, newName, newRole) {
+    const updateEmployees = employees.map((employee) => {
+      if (id === employee.id) {
+        return {...employee, name: newName, role: newRole};
+      }
+
+      return employee;
+    });
+
+    setEmployees(updateEmployees);
+  }
+
   return (
     <div className="App">
       {showEmployees ? 
         <>
-          <input type="text"
-            onChange={(e) => {
-              console.log(e.target.value);
-              setRole(e.target.value);
-          }}/>
-
           <div className="flex flex-wrap jusify-center">
 
             {employees.map((employee) => {
@@ -37,10 +42,12 @@ function App() {
               return (
                 <Employee 
                   key={employee.id}
+                  id={employee.id}
                   name={employee.name}
                   role={employee.role}
-                  img={employee.img}/>
-              )
+                  img={employee.img}
+                  onUpdateEmployee={onUpdateEmployee}/>
+              );
             })}            
           </div>
         </>
