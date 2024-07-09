@@ -49,9 +49,12 @@ function App() {
                   img={employee.img}
                   onUpdateEmployee={onUpdateEmployee}/>
               );
-            })}            
+            })} 
+            
           </div>
+
           <AddEmployee />
+          
         </>
         : 
         <p>You cannot see the employess</p>}

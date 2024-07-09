@@ -8,14 +8,18 @@ function AddEmployee(props) {
   
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant="outline-primary" onClick={handleClose}>
-      + Add Employee
+      <Button
+        variant="outline-primary"
+        className="block mx-auto" 
+        onClick={handleShow}>
+        + Add Employee
       </Button>
 
       <Modal
@@ -42,6 +46,7 @@ function AddEmployee(props) {
             <Form.Label>Employee name</Form.Label>
             <Form.Control 
               type="text"
+              placeholder="Angus Young"
               value={name}
               onChange={(e) => {setName(e.target.value)}}/>
             <br />
@@ -49,8 +54,17 @@ function AddEmployee(props) {
             <Form.Label>Role</Form.Label>
             <Form.Control
               type="text"
+              placeholder="Guitar Player"
               value={role}
               onChange={(e) => {setRole(e.target.value)}}/>
+            <br />
+
+            <Form.Label>Image URL</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="http://exemple.com/image.jpg"
+              value={imageUrl}
+              onChange={(e) => {setImageUrl(e.target.value)}}/>
             <br />
           </Form>
         </Modal.Body>
@@ -61,7 +75,7 @@ function AddEmployee(props) {
           </Button>
 
           <Button form="editModal" type="submit" variant="primary">
-            Save
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
