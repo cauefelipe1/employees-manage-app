@@ -6,6 +6,7 @@ import { useState } from 'react';
 function App() {
   const [role, setRole] = useState("dev");
   const showEmployees = true;
+  const dummyImgUrl = "https://images.pexels.com/photos/4467687/pexels-photo-4467687.jpeg"
   
   return (
     <div className="App">
@@ -17,10 +18,17 @@ function App() {
               setRole(e.target.value);
           }}/>
 
-          <Employee name="Steve" role="Intern"/>
-          <Employee name="Roger" role={ role }/>
-          <Employee name="Erin"/>
-          <Employee name="Mary"/>
+          <div className="flex flex-wrap jusify-center">
+            <Employee name="Steve" role="Intern" img={ dummyImgUrl }/>
+            <Employee name="Roger" role={ role } img={ dummyImgUrl }/>
+            <Employee name="Erin" img={ dummyImgUrl }/>
+            <Employee name="Mary" img={ dummyImgUrl }/>
+            <Employee name="Steve" role="Intern" img={ dummyImgUrl }/>
+            <Employee name="Roger" role={ role } img={ dummyImgUrl }/>
+            <Employee name="Erin" img={ dummyImgUrl }/>
+            <Employee name="Mary" img={ dummyImgUrl }/>
+            <Employee name="Steve" role="Intern" img={ dummyImgUrl }/>
+          </div>
         </>
         : 
         <p>You cannot see the employess</p>}
