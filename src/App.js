@@ -10,10 +10,10 @@ function App() {
       {console.log("We are about to list employees.")}
       {showEmployees ? 
         <>
-          <Employee />
-          <Employee />
-          <Employee />
-          <Employee />
+          <Employee name="Steve" role="Intern"/>
+          <Employee name="Roger"/>
+          <Employee name="Erin"/>
+          <Employee name="Mary"/>
         </>
         : 
         <p>You cannot see the employess</p>}
