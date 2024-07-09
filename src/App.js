@@ -1,6 +1,7 @@
 //import logo from './logo.svg';
 import './App.css';
 import Employee from './components/Employee';
+import AddEmployee from './components/AddEmployee';
 import { useState } from 'react';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
               );
             })}            
           </div>
+          <AddEmployee />
         </>
         : 
         <p>You cannot see the employess</p>}
