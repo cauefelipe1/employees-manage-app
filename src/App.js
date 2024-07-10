@@ -52,7 +52,7 @@ function App() {
 
       {showEmployees ? 
         <>
-          <div className="tw-flex tw-flex-wrap tw-jusify-center">
+          <div className="flex flex-wrap jusify-center">
 
             {employees.map((employee) => {
 

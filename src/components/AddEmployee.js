@@ -17,7 +17,7 @@ function AddEmployee(props) {
     <>
       <Button
         variant="outline-primary"
-        className="tw-block tw-my-auto tw-m-2" 
+        className="block my-auto m-2" 
         onClick={handleShow}>
         + Add Employee
       </Button>
