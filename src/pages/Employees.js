@@ -46,7 +46,7 @@ function Employees() {
   }
 
   return (
-    <div className="App min-h-screen bg-gray-50">
+    <div>
       {showEmployees ? 
         <>
           <div className="flex flex-wrap justify-content-center">
