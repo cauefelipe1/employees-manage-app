@@ -2,6 +2,7 @@
 import './App.css';
 import Employee from './components/Employee';
 import AddEmployee from './components/AddEmployee';
+import EditEmployee from './components/EditEmployee';
 import { useState } from 'react';
 import {v4 as uuidv4 } from 'uuid';
 
@@ -51,6 +52,13 @@ function App() {
           <div className="tw-flex tw-flex-wrap tw-jusify-center">
 
             {employees.map((employee) => {
+
+              const editEmployee = (
+                <EditEmployee
+                  id={employee.id}
+                  name={employee.name}
+                  role={employee.role}
+                  onUpdateEmployee={onUpdateEmployee}/>);
               
               return (
                 <Employee 
@@ -59,7 +67,7 @@ function App() {
                   name={employee.name}
                   role={employee.role}
                   img={employee.img}
-                  onUpdateEmployee={onUpdateEmployee}/>
+                  editEmployee={editEmployee}/>
               );
             })} 
             

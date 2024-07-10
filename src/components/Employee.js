@@ -16,11 +16,8 @@ function Employee(props) {
           <p className="tw-text-slate-500 tw-font-medium">{props.role}</p>
         </div>
 
-        <EditEmployee
-          id={props.id}
-          name={props.name}
-          role={props.role}
-          onUpdateEmployee={props.onUpdateEmployee}/>
+        {props.editEmployee}
+
       </div>
     </div>
   );
