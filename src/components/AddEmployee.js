@@ -17,7 +17,7 @@ function AddEmployee(props) {
     <>
       <Button
         variant="outline-primary"
-        className="block mx-auto" 
+        className="tw-block tw-my-auto tw-m-2" 
         onClick={handleShow}>
         + Add Employee
       </Button>
@@ -39,8 +39,10 @@ function AddEmployee(props) {
             onSubmit={(e) => {
               e.preventDefault();
               
-              props.onUpdateEmployee(props.id, name, role);
-              handleClose();
+              props.onAddEmployee(name, role, imageUrl);
+              setName("");
+              setRole("");
+              setImageUrl("");
             }}
           >
             <Form.Label>Employee name</Form.Label>
@@ -74,7 +76,7 @@ function AddEmployee(props) {
             Close
           </Button>
 
-          <Button form="editModal" type="submit" variant="primary">
+          <Button form="editModal" type="submit" variant="primary" onClick={handleClose}>
             Add
           </Button>
         </Modal.Footer>
