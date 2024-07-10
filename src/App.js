@@ -47,12 +47,12 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App min-h-screen bg-gray-50">
       <Header />
 
       {showEmployees ? 
         <>
-          <div className="flex flex-wrap jusify-center">
+          <div className="flex flex-wrap justify-content-center">
 
             {employees.map((employee) => {
 
