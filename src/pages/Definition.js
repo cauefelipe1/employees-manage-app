@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
 
 export default function Definition(){
     const [word, setWord] = useState();
+    let { search } = useParams();
 
     useEffect(() => {
-        fetch("https://api.dictionaryapi.dev/api/v2/entries/en/mouse")
+        fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + search)
             .then((response) => response.json())
             .then((data) => {
                 setWord(data[0].meanings);
@@ -15,7 +17,7 @@ export default function Definition(){
 
     return (
         <>
-           <h1>Here is a definition</h1>
+           <h1>Here is a definition for: {search}</h1>
            
            {word && Array.isArray(word) ? 
                 (word.map((meaning) => {
