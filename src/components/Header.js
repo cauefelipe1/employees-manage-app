@@ -9,10 +9,6 @@ const navigation = [
   { name: 'Calendar', href: '/other2' },
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function Header(props) {
   return (
     <>
@@ -87,8 +83,9 @@ export default function Header(props) {
                     ))}
                 </div>
             </DisclosurePanel>
-        </Disclosure>
-        <div className="bg-gray-50">
+        </Disclosure> 
+
+        <div className="bg-gray-200">
             <div className="max-w-7xl mx-auto min-h-screen p-2">{props.children}</div>
         </div>
     </>
