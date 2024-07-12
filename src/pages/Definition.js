@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
 import NotFound from "../components/NotFound";
+import DefinitionSearchBox from "../components/DefinitionSearchBox";
 
 export default function Definition(){
     const navigate = useNavigate();
@@ -12,8 +13,6 @@ export default function Definition(){
     let { search } = useParams();
 
     useEffect(() => {
-        //const url = "https://sdadadas.frswesds";
-        //const url = "http://httpstat.us/501";
         const url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + search;
         fetch(url)
             .then((response) => {
@@ -76,6 +75,9 @@ export default function Definition(){
                                 {meaning.partOfSpeech}: {meaning.definitions[0].definition}
                             </p>)
                     }))}
+
+                    <p>Search again:</p>
+                    <DefinitionSearchBox />
                 </>
             :
                 <p>Loading...</p>
