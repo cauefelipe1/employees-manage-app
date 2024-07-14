@@ -1,3 +1,35 @@
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
+
 export default function Customers(){
-    return <div><h1>Hello, I'm the customers list.</h1></div>
+    const [customers, setCustomers] = useState();
+
+    useEffect(() => {
+        fetch('http://localhost:8000/api/customers/')
+        .then((response) => response.json())
+        .then((data) => {
+            setCustomers(data.customers);
+        });
+
+    }, []);
+
+    return (
+        <>
+            <h1>Here are our customers:</h1>
+
+            {customers ? customers.map((customer) => {
+                return (
+                    <div
+                        key={customer.id}
+                        className="flex">
+
+                        <p>
+                            <Link to={'/customers/' + customer.id}>{customer.name}</Link>
+                        </p>
+                    </div>
+                );
+            }) : ''}
+        </>
+    )
+
 }
