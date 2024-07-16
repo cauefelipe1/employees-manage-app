@@ -118,7 +118,6 @@ export default function Customer(){
                         type="text"
                         value={tempCustomer.name} 
                         onChange={(e) => {
-                            //isDataChanged();
                             setTempCustomer({...tempCustomer, name: e.target.value});
                         }}/>
 
@@ -127,7 +126,6 @@ export default function Customer(){
                         type="text"
                         value={tempCustomer.industry}
                         onChange={(e) => {
-                            //isDataChanged();
                             setTempCustomer({...tempCustomer, industry: e.target.value});
                         }}/>
                         {changed ? 
