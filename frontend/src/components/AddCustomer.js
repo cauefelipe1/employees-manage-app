@@ -4,25 +4,23 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 export default function AddCustomer(props) {
-  const [show, setShow] = useState(false);
   
   const [name, setName] = useState("");
   const [industry, setIndustry] = useState("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => props.toggleShow();
 
   return (
     <>
       <Button
         variant="primary"
         className="block my-auto m-2" 
-        onClick={handleShow}>
+        onClick={props.toggleShow}>
         + Add Customer
       </Button>
 
       <Modal
-        show={show}
+        show={props.show}
         onHide={handleClose}
         backdrop="static"
         centered
@@ -67,7 +65,7 @@ export default function AddCustomer(props) {
             Close
           </Button>
 
-          <Button form="editModal" type="submit" variant="primary" onClick={handleClose}>
+          <Button form="editModal" type="submit" variant="primary">
             Add
           </Button>
         </Modal.Footer>

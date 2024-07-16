@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { json, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { baseUrl } from "../shared";
 import AddCustomer from "../components/AddCustomer";
 
 export default function Customers(){
     const [customers, setCustomers] = useState();
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         const url = baseUrl + "/api/customers/";
@@ -17,6 +18,10 @@ export default function Customers(){
 
     }, []);
 
+    function toggleShow() {
+        setShow(!show);
+    }
+
     function onAddCustomer(name, industry){
         const data = {name: name, industry: industry};
         const url = baseUrl + "/api/customers/"
@@ -26,7 +31,7 @@ export default function Customers(){
             headers: {
                 "Content-Type": "application/json"
             },
-            body: json.stringfy(data)
+            body: JSON.stringify(data)
         })
             .then((response) => {
                 if (!response.ok) {
@@ -35,8 +40,9 @@ export default function Customers(){
 
                 return response.json();
             })
-            .then((date) => {
-                
+            .then((data) => {
+                setCustomers([...customers, data.customer]);
+                toggleShow();
             })
             .catch((e) => {
                 console.log(e);
@@ -66,6 +72,8 @@ export default function Customers(){
 
             <div className="d-flex justify-content-center">
                 <AddCustomer
+                    show={show}
+                    toggleShow={toggleShow}
                     onAddCustomer={onAddCustomer}/>
             </div>
         </>
