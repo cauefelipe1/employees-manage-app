@@ -8,7 +8,9 @@ export default function Customer(){
     const { id } = useParams();
     
     const [customer, setCustomer] = useState();
+    const [tempCustomer, setTempCustomer] = useState();
     const [notFound, setNotFound] = useState(false);
+    const [changed, setChanged] = useState(false);
 
     const navigate = useNavigate();
 
@@ -36,13 +38,25 @@ export default function Customer(){
             })
             .then((data) => {
                 setCustomer(data.customer);
+                setTempCustomer(data.customer);
             })
             .catch((e) => {
                 console.log(e.message)
             });
     }, []);
 
-    function deleteCustomer(){
+    useEffect(() => {
+        if (!customer || !tempCustomer) {
+            return;
+        }
+
+        setChanged(
+            customer.name !== tempCustomer.name ||
+            customer.industry !== tempCustomer.industry
+        );
+    }, [tempCustomer, customer]);
+
+    function deleteCustomer() {
         const url = baseUrl + "/api/customers/" + id;
         fetch(url, 
             {
@@ -63,14 +77,76 @@ export default function Customer(){
             });
     }
 
+    function updateCustomer(){
+        const url = baseUrl + "/api/customers/" + id;
+        fetch(url, 
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(tempCustomer)
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+
+                return response.json();
+            })
+            .then((data) => {
+                setCustomer(data.customer);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
     return (
         <>
             {notFound ? <NotFound /> : null}
             {customer ? 
                 <div>
-                    <p>{customer.id}</p>
-                    <p>{customer.name}</p>
-                    <p>{customer.industry}</p>
+                    <input 
+                        className="m-2 block px-2"
+                        type="text"
+                        readOnly={true}
+                        value={tempCustomer.id} />
+
+                    <input 
+                        className="m-2 block px-2"
+                        type="text"
+                        value={tempCustomer.name} 
+                        onChange={(e) => {
+                            //isDataChanged();
+                            setTempCustomer({...tempCustomer, name: e.target.value});
+                        }}/>
+
+                    <input 
+                        className="m-2 block px-2"
+                        type="text"
+                        value={tempCustomer.industry}
+                        onChange={(e) => {
+                            //isDataChanged();
+                            setTempCustomer({...tempCustomer, industry: e.target.value});
+                        }}/>
+                        {changed ? 
+                            <>
+                                <Button
+                                    className="my-2"
+                                    onClick={() => setTempCustomer({...customer})}
+                                >
+                                    Cancel
+                                </Button>
+
+                                <Button
+                                    className="m-2"
+                                    onClick={updateCustomer}
+                                >
+                                    Save
+                                </Button>
+                            </> 
+                        : null}
                 </div> : 
                 null
             }
