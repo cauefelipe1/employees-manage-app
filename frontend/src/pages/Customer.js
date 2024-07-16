@@ -7,12 +7,13 @@ import { Button } from "react-bootstrap";
 export default function Customer(){
     const { id } = useParams();
     
+    const navigate = useNavigate();
+    
     const [customer, setCustomer] = useState();
     const [tempCustomer, setTempCustomer] = useState();
     const [notFound, setNotFound] = useState(false);
     const [changed, setChanged] = useState(false);
-
-    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         const url = baseUrl + '/api/customers/' + id;
@@ -21,16 +22,9 @@ export default function Customer(){
                 if (response.status === 404) {
                     setNotFound(true);
 
-                } else if (response.status === 401) {
-                    navigate("/login");
-
-                } else if (response.status === 500) {
-                    //setServerError(true);
                 }
 
                 if (!response.ok) {
-                    //setError(true);
-
                     throw new Error("something went wrong.");
                 }
 
@@ -39,9 +33,10 @@ export default function Customer(){
             .then((data) => {
                 setCustomer(data.customer);
                 setTempCustomer(data.customer);
+                setErrorMessage(undefined);
             })
             .catch((e) => {
-                console.log(e.message)
+                setErrorMessage(e.message);
             });
     }, []);
 
@@ -55,6 +50,12 @@ export default function Customer(){
             customer.industry !== tempCustomer.industry
         );
     }, [tempCustomer, customer]);
+
+    useEffect(() => {
+        if (!changed) {
+            setErrorMessage(undefined);
+        }
+    }, [changed]);
 
     function deleteCustomer() {
         const url = baseUrl + "/api/customers/" + id;
@@ -73,7 +74,7 @@ export default function Customer(){
                 navigate("/customers");
             })
             .catch((e) => {
-                console.log(e);
+                setErrorMessage(e.message);
             });
     }
 
@@ -95,10 +96,11 @@ export default function Customer(){
                 return response.json();
             })
             .then((data) => {
+                setErrorMessage(undefined);
                 setCustomer(data.customer);
             })
             .catch((e) => {
-                console.log(e);
+                setErrorMessage(e.message);
             });
     }
 
@@ -145,15 +147,19 @@ export default function Customer(){
                                 </Button>
                             </> 
                         : null}
+
+                    <Button 
+                        variant="danger"
+                        onClick={deleteCustomer}
+                    >
+                        Delete
+                    </Button>
                 </div> : 
                 null
             }
             <div >
-                <Button 
-                    variant="danger"
-                    onClick={deleteCustomer}>Delete</Button>
+                {errorMessage ? <p>{errorMessage}</p> : null}
                 <br />
-
                 <Link to="/customers">Back</Link>
             </div>
         </>
