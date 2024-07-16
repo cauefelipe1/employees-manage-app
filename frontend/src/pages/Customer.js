@@ -2,7 +2,7 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import NotFound from "../components/NotFound";
 import { baseUrl } from "../shared";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 export default function Customer(){
     const { id } = useParams();
@@ -78,7 +78,9 @@ export default function Customer(){
             });
     }
 
-    function updateCustomer(){
+    function updateCustomer(e){
+        e.preventDefault();
+
         const url = baseUrl + "/api/customers/" + id;
         fetch(url, 
             {
@@ -105,52 +107,64 @@ export default function Customer(){
     }
 
     return (
-        <>
+        <div
+            className="p-3">
+
             {notFound ? <NotFound /> : null}
             {customer ? 
                 <div>
-                    <input 
-                        className="m-2 block px-2"
-                        type="text"
-                        readOnly={true}
-                        value={tempCustomer.id} />
 
-                    <input 
-                        className="m-2 block px-2"
-                        type="text"
-                        value={tempCustomer.name} 
-                        onChange={(e) => {
-                            setTempCustomer({...tempCustomer, name: e.target.value});
-                        }}/>
+                    <Form 
+                        id="customerEdit"
+                        onSubmit={updateCustomer}
+                    >
+                        <Form.Label>Id</Form.Label>
+                        <Form.Control 
+                            type="text"
+                            value={tempCustomer.id}
+                            readOnly={true}/>
+                        <br />
 
-                    <input 
-                        className="m-2 block px-2"
-                        type="text"
-                        value={tempCustomer.industry}
-                        onChange={(e) => {
-                            setTempCustomer({...tempCustomer, industry: e.target.value});
-                        }}/>
-                        {changed ? 
-                            <>
-                                <Button
-                                    className="my-2"
-                                    onClick={() => setTempCustomer({...customer})}
-                                >
-                                    Cancel
-                                </Button>
+                        <Form.Label>Employee name</Form.Label>
+                        <Form.Control 
+                            type="text"
+                            value={tempCustomer.name}
+                            onChange={(e) => {
+                                setTempCustomer({...tempCustomer, name: e.target.value});
+                            }}/>
+                        <br />
 
-                                <Button
-                                    className="m-2"
-                                    onClick={updateCustomer}
-                                >
-                                    Save
-                                </Button>
-                            </> 
-                        : null}
+                        <Form.Label>Industry</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={tempCustomer.industry}
+                            onChange={(e) => {
+                                setTempCustomer({...tempCustomer, industry: e.target.value});
+                            }}/>
+                        <br />
+                    </Form>
 
-                    <Button 
+                    {changed ? 
+                        <>
+                            <Button
+                                className="my-2"
+                                onClick={() => setTempCustomer({...customer})}
+                            >
+                                Cancel
+                            </Button>
+
+                            <Button
+                                className="m-2"
+                                onClick={updateCustomer}
+                            >
+                                Save
+                            </Button>
+                        </> 
+                    : null}
+                    
+                    <Button
+                        form="customerEdit"
                         variant="danger"
-                        onClick={deleteCustomer}
                     >
                         Delete
                     </Button>
@@ -160,8 +174,12 @@ export default function Customer(){
             <div >
                 {errorMessage ? <p>{errorMessage}</p> : null}
                 <br />
-                <Link to="/customers">Back</Link>
+                <Link to="/customers">
+                    <Button>
+                        ← Back
+                    </Button>
+                </Link>
             </div>
-        </>
+        </div>
     )
 }
