@@ -2,6 +2,7 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import NotFound from "../components/NotFound";
 import { baseUrl } from "../shared";
+import { Button } from "react-bootstrap";
 
 export default function Customer(){
     const { id } = useParams();
@@ -41,6 +42,26 @@ export default function Customer(){
             });
     }, []);
 
+    function deleteCustomer(){
+        const url = baseUrl + "/api/customers/" + id;
+        fetch(url, 
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Something went wrong");
+                }
+                
+                navigate("/customers");
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
 
     return (
         <>
@@ -53,8 +74,14 @@ export default function Customer(){
                 </div> : 
                 null
             }
+            <div >
+                <Button 
+                    variant="danger"
+                    onClick={deleteCustomer}>Delete</Button>
+                <br />
 
-            <Link to="/customers">Back</Link>
+                <Link to="/customers">Back</Link>
+            </div>
         </>
     )
 }

@@ -19,19 +19,23 @@ export default function Customers(){
     return (
         <>
             <h1>Here are our customers:</h1>
+            <ul>
 
-            {customers ? customers.map((customer) => {
-                return (
-                    <div
-                        key={customer.id}
-                        className="flex">
+                {customers ? customers.map((customer) => {
+                    return (
+                        <li
+                            key={customer.id}>
+                            <div
+                                className="flex">
 
-                        <p>
-                            <Link to={'/customers/' + customer.id}>{customer.name}</Link>
-                        </p>
-                    </div>
-                );
-            }) : ''}
+                                <p>
+                                    <Link to={'/customers/' + customer.id}>{customer.name}</Link>
+                                </p>
+                            </div>
+                        </li>
+                    );
+                }) : ''}
+            </ul>
         </>
     )
 
