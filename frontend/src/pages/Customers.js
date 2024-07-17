@@ -11,17 +11,22 @@ export default function Customers(){
     useEffect(() => {
         const url = baseUrl + "/api/customers/";
 
-        fetch(url)
-        .then((response) => {
-            if (response.status === 401) {
-                navigate("/login");
+        fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("jwtToken")
             }
-
-            return response.json();
         })
-        .then((data) => {
-            setCustomers(data.customers);
-        });
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate("/login");
+                }
+
+                return response.json();
+            })
+            .then((data) => {
+                setCustomers(data.customers);
+            });
 
     }, []);
 

@@ -27,7 +27,9 @@ export default function Login() {
                         return response.json()
                     })
                     .then((data) => {
-                        console.log(data);
+                        localStorage.setItem('jwtToken', data.access);
+                        localStorage.setItem('Refreshtoken', data.refresh);
+                        console.log(localStorage);
                     })
             }}
         >
