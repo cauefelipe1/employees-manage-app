@@ -1,8 +1,9 @@
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import NotFound from "../components/NotFound";
 import { baseUrl } from "../shared";
 import { Button, Form } from "react-bootstrap";
+import { LoginContext } from "../App";
 
 export default function Customer(){
     const { id } = useParams();
@@ -15,6 +16,7 @@ export default function Customer(){
     const [notFound, setNotFound] = useState(false);
     const [changed, setChanged] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
     useEffect(() => {
         const url = baseUrl + '/api/customers/' + id;
@@ -28,6 +30,8 @@ export default function Customer(){
                 if (response.status === 404) {
                     setNotFound(true);
                 } else if (response.status === 401) {
+                    setLoggedIn(false);
+
                     navigate("/login", {
                         state: {
                             previousUrl: location.pathname
@@ -80,6 +84,8 @@ export default function Customer(){
             })
             .then((response) => {
                 if (response.status === 401) {
+                    setLoggedIn(false);
+
                     navigate("/login", {
                         state: {
                             previousUrl: location.pathname
@@ -113,6 +119,8 @@ export default function Customer(){
             })
             .then((response) => {
                 if (response.status === 401) {
+                    setLoggedIn(false);
+
                     navigate("/login", {
                         state: {
                             previousUrl: location.pathname

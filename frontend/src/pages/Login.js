@@ -1,11 +1,14 @@
 import { Button, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { baseUrl } from "../shared";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    
+    const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -33,6 +36,8 @@ export default function Login() {
                     .then((data) => {
                         localStorage.setItem('jwtToken', data.access);
                         localStorage.setItem('Refreshtoken', data.refresh);
+
+                        setLoggedIn(true);
 
                         if (location?.state?.previousUrl) {
                             navigate(location.state.previousUrl);
