@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
 import NotFound from "../components/NotFound";
@@ -7,10 +7,12 @@ import DefinitionSearchBox from "../components/DefinitionSearchBox";
 
 export default function Definition(){
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [word, setWord] = useState();
     const [notFound, setNotFound] = useState(false);
     const [error, setError] = useState(false);
-    let { search } = useParams();
+    const { search } = useParams();
 
     useEffect(() => {
         const url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + search;
@@ -20,7 +22,11 @@ export default function Definition(){
                     setNotFound(true);
 
                 } else if (response.status === 401) {
-                    navigate("/login")
+                    navigate("/login", {
+                        state: {
+                            previousUrl: location.pathname
+                        }
+                    })
 
                 } else if (response.status === 500) {
                     //setServerError(true);
