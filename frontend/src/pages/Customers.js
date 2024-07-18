@@ -3,71 +3,55 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { baseUrl } from "../shared";
 import AddCustomer from "../components/AddCustomer";
 import { LoginContext } from "../App";
+import useFetch from "../hooks/UseFetch";
 
 export default function Customers(){
-    const [customers, setCustomers] = useState();
     const [show, setShow] = useState(false);
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [loggedIn, setLoggedIn] = useContext(LoginContext);
+    // const navigate = useNavigate();
+    // const location = useLocation();
+    // const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
-    useEffect(() => {
-        const url = baseUrl + "/api/customers/";
-
-        fetch(url, {
+    const {data: { customers } = {}, errorStatus} = useFetch(
+        baseUrl + "/api/customers/", {
+            method: "GET",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.getItem("jwtToken")
             }
-        })
-            .then((response) => {
-                if (response.status === 401) {
-                    setLoggedIn(false);
-                    navigate("/login", {
-                        state: {
-                            previousUrl: location.pathname
-                        }
-                    });
-                }
-
-                return response.json();
-            })
-            .then((data) => {
-                setCustomers(data.customers);
-            });
-
-    }, []);
+        });
+    useEffect(() => {
+        console.log(customers);
+    });
 
     function toggleShow() {
         setShow(!show);
     }
 
     function onAddCustomer(name, industry){
-        const data = {name: name, industry: industry};
-        const url = baseUrl + "/api/customers/"
+        // const data = {name: name, industry: industry};
+        // const url = baseUrl + "/api/customers/"
 
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Something went wrong");
-                }
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw new Error("Something went wrong");
+        //         }
 
-                return response.json();
-            })
-            .then((data) => {
-                setCustomers([...customers, data.customer]);
-                toggleShow();
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        //         return response.json();
+        //     })
+        //     .then((data) => {
+        //         setCustomers([...customers, data.customer]);
+        //         toggleShow();
+        //     })
+        //     .catch((e) => {
+        //         console.log(e);
+        //     });
     }
 
     return (
