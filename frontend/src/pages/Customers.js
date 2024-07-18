@@ -1,57 +1,34 @@
-import { useEffect, useState, useContext } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 import { baseUrl } from "../shared";
 import AddCustomer from "../components/AddCustomer";
-import { LoginContext } from "../App";
 import useFetch from "../hooks/UseFetch";
 
 export default function Customers(){
     const [show, setShow] = useState(false);
 
-    // const navigate = useNavigate();
-    // const location = useLocation();
-    // const [loggedIn, setLoggedIn] = useContext(LoginContext);
-
-    const {data: { customers } = {}, errorStatus} = useFetch(
+    const {request, appendData, data: { customers } = {}, errorStatus} = useFetch(
         baseUrl + "/api/customers/", {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwtToken")
             }
         });
+    
     useEffect(() => {
-        console.log(customers);
-    });
+        request();
+    }, []);
 
     function toggleShow() {
         setShow(!show);
     }
 
     function onAddCustomer(name, industry){
-        // const data = {name: name, industry: industry};
-        // const url = baseUrl + "/api/customers/"
-
-        // fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw new Error("Something went wrong");
-        //         }
-
-        //         return response.json();
-        //     })
-        //     .then((data) => {
-        //         setCustomers([...customers, data.customer]);
-        //         toggleShow();
-        //     })
-        //     .catch((e) => {
-        //         console.log(e);
-        //     });
+        appendData({name: name, industry: industry});
+        
+        if (!errorStatus) {
+            toggleShow();
+        }
     }
 
     return (

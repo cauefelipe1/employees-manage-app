@@ -8,7 +8,7 @@ export default function useFetch(url, { method, headers, body } = {}) {
     const navigate = useNavigate();
     const location = useLocation();
     
-    useEffect(() => {
+    function request() {
         fetch(url, {
             method: method,
             headers: {
@@ -32,13 +32,50 @@ export default function useFetch(url, { method, headers, body } = {}) {
 
                 return response.json();
             })
-            .then((data) => {
-                setData(data)
+            .then((d) => {
+                setData(d);
             })
             .catch((e) => {
                 setErrorStatus(e);
             });
-    }, []);
+    }
 
-    return { data, errorStatus };
+    function appendData(newData) {
+        fetch(url, {
+            method: "POST",
+            headers: {
+                ...headers,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newData)
+        })
+            .then((response) => {
+                if (response.status === 401) {
+                    navigate("/login", {
+                        state: {
+                            previousUrl: location.pathname
+                        }
+                    });
+                }
+
+                if (!response.ok) {
+                    throw(response.status);
+                }
+
+                return response.json();
+            })
+            .then((d) => {
+                const submitted = Object.values(d)[0];
+                const newState = {...data};
+                
+                Object.values(newState)[0].push(submitted);
+
+                setData(newState);
+            })
+            .catch((e) => {
+                setErrorStatus(e);
+            });
+    }
+
+    return { request, appendData, data, errorStatus };
 }
