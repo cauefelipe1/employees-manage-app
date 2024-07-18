@@ -9,8 +9,9 @@ export default function DefinitionSearchBox(){
     return (
         <form 
             className="flex space-between space-x-2 max-w-[350px]"
-            onSubmit={() => {
-            navigate("/dictionary/" + word)
+            onSubmit={(e) => {
+                //e.preventDefault();
+                navigate("/dictionary/" + word)
         }}>
             <input
                 className="shirink  min-w-0 px-2 rounded py-1"
@@ -22,6 +23,7 @@ export default function DefinitionSearchBox(){
             />
 
             <Button
+                type="submit"
                 variant="outline-primary"
                 className="block my-auto m-2">
                 Search
