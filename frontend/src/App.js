@@ -15,10 +15,17 @@ export const LoginContext = createContext();
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState();
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.jwtToken);
+
+  function changeLoggedIn(value) {
+    setLoggedIn(value);
+    if (!value) {
+      localStorage.clear();
+    }
+  }
 
   return (
-    <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
+    <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
       <BrowserRouter>
         <Header>
           <Routes>

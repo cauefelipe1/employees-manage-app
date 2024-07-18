@@ -52,12 +52,23 @@ export default function Header(props) {
                                             {item.name}
                                         </NavLink>
                                     ))}
+                                    {loggedIn ? 
                                     <NavLink
-                                        to={loggedIn ? "/logout" : "/login"}
+                                        to="/login"
+                                        className="rounded-md px-3 py-2 text-sm font-medium no-underline bg-gray-900 text-white"
+                                        onClick={() => {
+                                            setLoggedIn(false);
+                                        }}
+                                    >
+                                        Logout
+                                    </NavLink>
+                                    :
+                                    <NavLink
+                                        to="/login"
                                         className="rounded-md px-3 py-2 text-sm font-medium no-underline bg-gray-900 text-white"
                                     >
-                                        {loggedIn ? "Logout" : "Login"}
-                                    </NavLink>
+                                        Login
+                                    </NavLink>}
                                 </div>
                             </div>
                         </div>
@@ -91,13 +102,23 @@ export default function Header(props) {
                                 {item.name}
                             </NavLink>
                         ))}
-
+                        {loggedIn ? 
                         <NavLink
-                            to={loggedIn ? "/logout" : "/login"}
+                            to="/login"
+                            className="block rounded-md px-3 py-2 text-base font-medium no-underline text-gray-300 hover:bg-gray-700 hover:text-white"
+                            onClick={() => {
+                                setLoggedIn(false);
+                            }}
+                        >
+                            Logout
+                        </NavLink>
+                        :
+                        <NavLink
+                            to="/login"
                             className="block rounded-md px-3 py-2 text-base font-medium no-underline text-gray-300 hover:bg-gray-700 hover:text-white"
                         >
-                            {loggedIn ? "Logout" : "Login"}
-                        </NavLink>
+                            Login
+                        </NavLink>}
                     </div>
                 </DisclosurePanel>
             </Disclosure> 
