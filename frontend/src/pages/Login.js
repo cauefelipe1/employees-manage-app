@@ -35,7 +35,7 @@ export default function Login() {
                     })
                     .then((data) => {
                         localStorage.setItem('jwtToken', data.access);
-                        localStorage.setItem('Refreshtoken', data.refresh);
+                        localStorage.setItem('refreshToken', data.refresh);
 
                         setLoggedIn(true);
 

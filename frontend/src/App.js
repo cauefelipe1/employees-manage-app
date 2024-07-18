@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import './App.css';
 import Employees from './pages/Employees';
@@ -10,10 +10,45 @@ import Definition from './pages/Definition';
 import NotFound from './components/NotFound';
 import Customer from './pages/Customer';
 import Login from './pages/Login';
+import { baseUrl } from './shared';
 
 export const LoginContext = createContext();
 
 function App() {
+
+  function refreshTokens(){
+    const url = baseUrl + "/api/token/refresh";
+
+    if(!localStorage.refreshToken){
+      return;
+    }
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        refresh: localStorage.refreshToken
+      })
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        localStorage.setItem('jwtToken', data.access);
+        localStorage.setItem('refreshToken', data.refresh);
+        
+        setLoggedIn(true);
+      });
+  }
+
+  useEffect(() => {
+    const minute = 1000 * 60;
+    refreshTokens();
+
+    setInterval(refreshTokens, minute * 20);
+  }, []);
 
   const [loggedIn, setLoggedIn] = useState(!!localStorage.jwtToken);
 
