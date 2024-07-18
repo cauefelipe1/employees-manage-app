@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createContext, useEffect, useState } from 'react';
 
 import './App.css';
+import { baseUrl } from './shared';
 import Employees from './pages/Employees';
 import Header from './components/Header';
 import Customers from './pages/Customers';
@@ -10,7 +11,7 @@ import Definition from './pages/Definition';
 import NotFound from './components/NotFound';
 import Customer from './pages/Customer';
 import Login from './pages/Login';
-import { baseUrl } from './shared';
+import Register from './pages/Register';
 
 export const LoginContext = createContext();
 
@@ -65,6 +66,7 @@ function App() {
         <Header>
           <Routes>
             <Route path="/login" element={<Login />}/>
+            <Route path="/register" element={<Register />}/>
             <Route path="/employees" element={<Employees />}/>
             <Route path="/dictionary" element={<Dictionary />}/>
             <Route path="/dictionary/:search" element={<Definition />}/>
