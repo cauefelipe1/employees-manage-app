@@ -63,19 +63,22 @@ function App() {
   return (
     <LoginContext.Provider value={[loggedIn, changeLoggedIn]}>
       <BrowserRouter>
-        <Header>
-          <Routes>
-            <Route path="/login" element={<Login />}/>
-            <Route path="/register" element={<Register />}/>
-            <Route path="/employees" element={<Employees />}/>
-            <Route path="/dictionary" element={<Dictionary />}/>
-            <Route path="/dictionary/:search" element={<Definition />}/>
-            <Route path="/customers" element={<Customers />}/>
-            <Route path="/customers/:id" element={<Customer />}/>
-            <Route path="/404" element={<NotFound />}/>
-            <Route path="/*" element={<NotFound />}/>
-          </Routes>
-        </Header>
+        <Routes>
+          <Route path="/" element={<Header />}>
+            
+            <Route path="login" element={<Login />}/>
+            <Route path="register" element={<Register />}/>
+            <Route path="employees" element={<Employees />}/>
+            <Route path="dictionary" element={<Dictionary />}/>
+            <Route path="dictionary/:search" element={<Definition />}/>
+            <Route path="customers" element={<Customers />}/>
+            <Route path="customers/:id" element={<Customer />}/>
+            
+            <Route path="404" element={<NotFound />}/>
+            <Route path="*" element={<NotFound />}/>
+            
+          </Route>
+        </Routes>
       </BrowserRouter>
     </LoginContext.Provider>
   )

@@ -1,6 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { useContext } from 'react'
 
 import { LoginContext } from '../App'
@@ -11,7 +11,7 @@ const navigation = [
   { name: 'Dictionay', href: '/dictionary' },
 ]
 
-export default function Header(props) {
+export default function Header() {
     const [loggedIn, setLoggedIn] = useContext(LoginContext);
 
     return (
@@ -124,7 +124,9 @@ export default function Header(props) {
             </Disclosure> 
 
             <div className="bg-gray-200">
-                <div className="max-w-7xl mx-auto min-h-screen p-2">{props.children}</div>
+                <div className="max-w-7xl mx-auto min-h-screen p-2">
+                    <Outlet />
+                </div>
             </div>
         </>
   )
